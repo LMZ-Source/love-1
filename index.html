@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>给特别的你</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%);
+            font-family: 'Arial', sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        
+        .container {
+            text-align: center;
+            max-width: 600px;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            animation: fadeIn 2s;
+        }
+        
+        h1 {
+            color: #ff6b88;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+        }
+        
+        p {
+            color: #555;
+            font-size: 1.2em;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .heart {
+            font-size: 60px;
+            color: #ff6b88;
+            animation: beat 1.5s infinite;
+            margin: 20px 0;
+        }
+        
+        .btn {
+            background: #ff6b88;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1em;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(255, 107, 136, 0.4);
+        }
+        
+        .btn:hover {
+            background: #ff477e;
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(255, 107, 136, 0.6);
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .response {
+            margin-top: 20px;
+            font-size: 1.3em;
+            color: #ff6b88;
+            font-weight: bold;
+        }
+        
+        .hearts {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .heart-particle {
+            position: absolute;
+            font-size: 20px;
+            color: rgba(255, 107, 136, 0.7);
+            animation: float 5s linear infinite;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes beat {
+            0% { transform: scale(1); }
+            25% { transform: scale(1.1); }
+            40% { transform: scale(1); }
+            60% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <div class="hearts" id="hearts"></div>
+    
+    <div class="container" id="main">
+        <h1>亲爱的 李明泽</h1>
+        <p>遇见你的那一刻，我的心跳漏了一拍</p>
+        <p>和你在一起的每一刻，都让我感到无比幸福</p>
+        <div class="heart">❤️</div>
+        <p>我想对你说...</p>
+        <button class="btn" onclick="showConfession()">点击查看我的心意</button>
+    </div>
+    
+    <div class="container hidden" id="confession">
+        <h1>我喜欢你！</h1>
+        <p>不是一时冲动，而是深思熟虑</p>
+        <p>不是一时兴起，而是日久生情</p>
+        <div class="heart">❤️</div>
+        <p>你愿意和我在一起吗？</p>
+        <button class="btn" onclick="showResponse('yes')">愿意</button>
+        <button class="btn" onclick="showResponse('no')" style="background: #ccc; margin-left: 15px;">考虑一下</button>
+    </div>
+    
+    <div class="container hidden" id="yes-response">
+        <h1>太开心了！</h1>
+        <p>这是我收到过最好的消息 ❤️</p>
+        <div class="heart">❤️</div>
+        <p>我会好好珍惜你，让你成为最幸福的人</p>
+        <div class="heart">❤️</div>
+        <p>爱你！</p>
+    </div>
+    
+    <div class="container hidden" id="no-response">
+        <h1>我会继续努力</h1>
+        <p>虽然有点小失落...</p>
+        <div class="heart">❤️</div>
+        <p>但我会用真心打动你</p>
+        <p>希望有一天能听到你肯定的回答</p>
+    </div>
+    
+    <script>
+        // 创建漂浮的心形粒子 
+        function createHearts() {
+            const heartsContainer = document.getElementById('hearts'); 
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('div'); 
+                heart.className  = 'heart-particle';
+                heart.innerHTML  = '❤️';
+                heart.style.left  = Math.random()  * 100 + 'vw';
+                heart.style.top  = Math.random()  * 100 + 'vh';
+                heart.style.animationDuration  = 3 + Math.random()  * 7 + 's';
+                heart.style.animationDelay  = Math.random()  * 5 + 's';
+                heartsContainer.appendChild(heart); 
+            }
+        }
+        
+        // 显示表白内容 
+        function showConfession() {
+            document.getElementById('main').classList.add('hidden'); 
+            document.getElementById('confession').classList.remove('hidden'); 
+        }
+        
+        // 显示回应
+        function showResponse(answer) {
+            document.getElementById('confession').classList.add('hidden'); 
+            if (answer === 'yes') {
+                document.getElementById('yes-response').classList.remove('hidden'); 
+                // 如果选择"愿意"，增加更多心形粒子 
+                createHearts();
+            } else {
+                document.getElementById('no-response').classList.remove('hidden'); 
+            }
+        }
+        
+        // 页面加载时创建一些心形粒子 
+        window.onload  = createHearts;
+    </script>
+</body>
+</html>
